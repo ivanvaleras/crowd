@@ -1,0 +1,16 @@
+---
+  - name: Setup test fixture
+    copy:
+      src: fixtures/ansible-xml-beers.xml
+      dest: /tmp/ansible-xml-beers.xml
+
+  - name: Pretty print
+    xml:
+      path: /tmp/ansible-xml-beers.xml
+      xpath: /business/beers
+      pretty_print: yes
+      add_children:
+        - beer: "Old Rasputin"
+
+  - name: Test expected result
+    command: diff results/test-pretty-print.xml /tmp/ansible-xml-beers.xml
